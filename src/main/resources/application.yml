@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+    datasource:
+        url: jdbc:postgresql://127.0.0.1:5432/roadside
+        username: roadside
+        password: roadside
+        driver-class-name: org.postgresql.Driver
+    jmx:
+      enabled: false # 部署到外部 tomcat 时需要配置
+mybatis:
+  mapper-locations: com.cwp.produce.mapper.*.xml
+
+logging:
+  level:
+    com.cwp.produce.mapper: debug

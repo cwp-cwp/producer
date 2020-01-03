@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cwp.produce.mapper.MessageDataMapper">
+
+    <resultMap id="parkRecord" type="com.cwp.produce.bean.ParkRecord">
+        <result property="id" column="id"/>
+        <result property="batchNumber" column="batch_number"/>
+        <result property="parkNumber" column="park_number"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="imageHost" column="image_host"/>
+        <result property="systemTime" column="system_time"/>
+        <result property="sendStatus" column="send_status"/>
+    </resultMap>
+
+    <resultMap id="parkSpaceImages" type="com.cwp.produce.bean.ParkSpaceImages">
+        <result property="batchNumber" column="batch_number"/>
+        <result property="parkNumber" column="park_number"/>
+        <result property="image" column="image"/>
+        <result property="imagePost" column="image_post"/>
+        <result property="time" column="time"/>
+        <result property="frequency" column="frequency"/>
+        <result property="sendStatus" column="send_status"/>
+    </resultMap>
+
+    <resultMap id="messageData" type="com.cwp.produce.bean.MessageData">
+        <result property="id" column="id"/>
+        <result property="messageId" column="message_id"/>
+        <result property="batchNumber" column="batch_number"/>
+        <result property="minBatchNumber" column="min_batch_number"/>
+        <result property="patrolCarId" column="patrol_car_id"/>
+        <result property="patrolCarNumber" column="patrol_car_number"/>
+        <result property="areaNumber" column="area_number"/>
+        <result property="areaName" column="area_name"/>
+        <result property="parkNumber" column="park_number"/>
+        <result property="parkStatus" column="park_status"/>
+        <result property="carNumber" column="car_number"/>
+        <result property="photographTime" column="photograph_time"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="pushTime" column="push_time"/>
+        <result property="sendStatus" column="send_status"/>
+        <result property="type" column="type"/>
+        <result property="recordTime" column="record_time"/>
+        <result property="newCarNumber" column="new_car_number"/>
+        <result property="panorama" column="panorama"/>
+        <collection property="parkSpaceImages" resultMap="parkSpaceImages"/>
+    </resultMap>
+
+    <select id="getByTimeAndStatusIsUnSend" resultMap="messageData">
+        SELECT
+          m.id,
+          m.message_id,
+          m.batch_number,
+          m.min_batch_number,
+          m.patrol_car_id,
+          m.patrol_car_number,
+          m.area_number,
+          m.area_name,
+          m.park_number,
+          m.park_status,
+          m.car_number,
+          m.photograph_time,
+          m.push_status,
+          m.push_time,
+          m.send_status,
+          m.type,
+          m.record_time,
+          m.new_car_number,
+          m.panorama,
+          i.batch_number,
+          i.park_number,
+          i.image,
+          i.image_post,
+          i.time,
+          i.frequency,
+          i.send_status
+        FROM roadside.message_data AS m LEFT JOIN roadside.parking_space_images AS i
+            ON m.batch_number = i.batch_number
+               AND m.park_number = i.park_number
+        WHERE m.send_status = 'UNSENT'
+--               AND m.push_status IS NOT NULL
+              AND m.record_time BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="getUnSendImageByTime" resultMap="messageData">
+        SELECT
+          m.id,
+          m.message_id,
+          m.batch_number,
+          m.min_batch_number,
+          m.patrol_car_id,
+          m.patrol_car_number,
+          m.area_number,
+          m.area_name,
+          m.park_number,
+          m.park_status,
+          m.car_number,
+          m.photograph_time,
+          m.push_status,
+          m.push_time,
+          m.send_status,
+          m.type,
+          m.record_time,
+          m.new_car_number,
+          m.panorama,
+          i.batch_number,
+          i.park_number,
+          i.image,
+          i.image_post,
+          i.time,
+          i.frequency,
+          i.send_status
+        FROM roadside.message_data AS m LEFT JOIN roadside.parking_space_images AS i
+            ON m.batch_number = i.batch_number
+               AND m.park_number = i.park_number
+        WHERE i.send_status IS NULL
+        AND m.record_time BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE roadside.message_data
+        SET send_status = 'SUCCESS'
+        WHERE message_id = #{messageId}
+    </update>
+
+    <update id="updateStatusSend">
+        UPDATE roadside.message_data
+        SET send_status = 'SENT'
+        WHERE message_id = #{messageId}
+    </update>
+
+    <update id="updateImageSendStatus">
+        UPDATE roadside.parking_space_images
+        SET send_status = 'SENT'
+        WHERE image = #{image}
+    </update>
+
+    <select id="getUnSendAllImageByTime" resultMap="parkRecord">
+        SELECT
+          p.id,
+          p.batch_number,
+          p.park_number,
+          p.car_number,
+          p.record_time,
+          p.image_host,
+          p.system_time,
+          p.send_status
+        FROM roadside.park_record AS p
+        WHERE p.send_status = 'UNSENT'
+              AND p.system_time BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <update id="updateAllImageSendStatus">
+        UPDATE roadside.park_record
+        SET send_status = #{sendStatus}
+        WHERE image_host = #{imageName}
+    </update>
+
+</mapper>

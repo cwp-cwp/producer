@@ -1,0 +1,42 @@
+[2019-09-28 18:46:22:205] INFO HV000001: Hibernate Validator 6.0.16.Final (org.hibernate.validator.internal.util.Version)
+[2019-09-28 18:46:24:196] INFO Starting ProduceApplication on DESKTOP-R0RECNP with PID 10748 (E:\workspace\producer\target\classes started by cwp80 in E:\workspace\producer) (com.cwp.produce.ProduceApplication)
+[2019-09-28 18:46:24:198] INFO No active profile set, falling back to default profiles: default (com.cwp.produce.ProduceApplication)
+[2019-09-28 18:46:24:684] WARN Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.cwp.produce.ProduceApplication]; nested exception is java.lang.IllegalStateException: Failed to introspect annotated methods on class org.springframework.boot.web.servlet.support.SpringBootServletInitializer (org.springframework.context.annotation.AnnotationConfigApplicationContext)
+[2019-09-28 18:46:24:730] ERROR Application run failed (org.springframework.boot.SpringApplication)
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.cwp.produce.ProduceApplication]; nested exception is java.lang.IllegalStateException: Failed to introspect annotated methods on class org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:181)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:315)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:232)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:275)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:95)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:705)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:531)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.cwp.produce.ProduceApplication.main(ProduceApplication.java:16)
+Caused by: java.lang.IllegalStateException: Failed to introspect annotated methods on class org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+	at org.springframework.core.type.StandardAnnotationMetadata.getAnnotatedMethods(StandardAnnotationMetadata.java:169)
+	at org.springframework.context.annotation.ConfigurationClassParser.retrieveBeanMethodMetadata(ConfigurationClassParser.java:392)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:317)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:242)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:199)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167)
+	... 12 more
+Caused by: java.lang.NoClassDefFoundError: javax/servlet/ServletContext
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Class.java:2688)
+	at java.lang.Class.getDeclaredMethods(Class.java:1962)
+	at org.springframework.core.type.StandardAnnotationMetadata.getAnnotatedMethods(StandardAnnotationMetadata.java:158)
+	... 17 more
+Caused by: java.lang.ClassNotFoundException: javax.servlet.ServletContext
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:372)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:361)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:360)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 21 more
